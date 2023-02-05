@@ -1,0 +1,59 @@
+package a9;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class ChatterFullMatch extends Chatter{
+
+	public ChatterFullMatch(String greeting, String goodbye, String phrasesPath) {
+		super(greeting, goodbye, phrasesPath);
+		phrases = loadLinesFromFile(phrasesPath);
+	}
+	
+	private static String[] loadLinesFromFile(String filePath) {
+        File f = new File(filePath);
+        try {
+            Scanner input = new Scanner(f);
+            String numLinesString = input.nextLine();
+            int numLines = Integer.parseInt(numLinesString);
+            String[] lines = new String[numLines];
+            for (int i = 0; i < lines.length; i++) {
+                lines[i] = input.nextLine();
+            }
+            input.close();
+            return lines;
+        } catch (FileNotFoundException exception) {
+            System.out.println("Could not open the provided file, returning null: " + filePath);
+            return new String[0];
+        }
+    }
+	
+	private static String lastWord(String phrase) {
+		String[] words = phrase.split(" ");
+		String[] arr = new String [];
+		for (String word : words) {
+			if(phrase.contains(word)) {
+				
+				add phrase to new list of strins
+			}
+		}
+		return list of said vlues 
+		return words;   
+	    }
+	
+	public String respondToPhrase(String userPhrase) {
+        String lastWord = lastWord(userPhrase);
+        for (String phrase : phrases) {
+            if (phrase.contains(lastWord)) {
+                return phrase;
+            }
+        }
+        return "Please tell me more about " + userPhrase;
+    }
+	
+	public static void main(String[] args) {
+
+	}
+
+}

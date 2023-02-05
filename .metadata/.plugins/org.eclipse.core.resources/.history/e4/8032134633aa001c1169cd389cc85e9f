@@ -1,0 +1,526 @@
+package assign08;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
+import java.util.Queue;
+
+/**
+ * A generic Java class that creates an unbalanced Binary Search Tree that will
+ * be used in our SpellChecker class.
+ * 
+ * 
+ * @author Alex Ulfich and Brayden Neal
+ * @version March 3rd, 2022
+ */
+public class BinarySearchTree<Type extends Comparable<? super Type>> implements SortedSet<Type> {
+
+	private class Node<Type> {
+		public Type element;
+		public Node<Type> left;
+		public Node<Type> right;
+		public Node<Type> parent;
+
+		public Node(Type element, Node<Type> parent) {
+			this.parent = parent;
+			this.element = element;
+			this.left = null;
+			this.right = null;
+		}
+	}
+
+	private Node<Type> rootNode;
+	private int size;
+
+	public BinarySearchTree() {
+		rootNode = null;
+		size = 0;
+	}
+
+	/**
+	 * 
+	 * Ensures that this set contains the specified item.
+	 * 
+	 * @param item - the item whose presence is ensured in this set
+	 * @return true if this set changed as a result of this method call (that is, if
+	 *         the input item was actually inserted); otherwise, returns false
+	 */
+	@Override
+	public boolean add(Type item) {
+		// Check if root node is null
+		if (rootNode == null) {
+			rootNode = new Node<Type>(item, null);
+			size++;
+			return true;
+		}
+
+		boolean isAdded = add(item, rootNode);
+
+		if (isAdded) {
+			size++;
+		}
+		return isAdded;
+	}
+
+	/**
+	 * Recursive helper method for our add() method.
+	 * 
+	 */
+	private boolean add(Type item, Node<Type> node) {
+
+		int comparison = item.compareTo(node.element);
+
+		if (comparison < 0) {
+			// Go left
+			if (node.left == null) {
+				node.left = new Node<Type>(item, node);
+				return true;
+			} else
+				return add(item, node.left);
+		}
+
+		else if (comparison > 0) {
+			// Go right
+			if (node.right == null) {
+				node.right = new Node<Type>(item, node);
+				return true;
+			} else
+				return add(item, node.right);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Ensures that this set contains all items in the specified collection.
+	 * 
+	 * @param items - the collection of items whose presence is ensured in this set
+	 * @return true if this set changed as a result of this method call (that is, if
+	 *         any item in the input collection was actually inserted); otherwise,
+	 *         returns false
+	 */
+	@Override
+	public boolean addAll(Collection<? extends Type> items) {
+		int beginningSize = size();
+
+		for (Type item : items)
+			add(item);
+
+		return size() > beginningSize;
+	}
+	
+	/**
+	 * Removes all items from this set. The set will be empty after this method
+	 * call.
+	 */
+	@Override
+	public void clear() {
+		size = 0;
+		rootNode = null;
+	}
+
+	/**
+	 * Determines if there is an item in this set that is equal to the specified
+	 * item.
+	 * 
+	 * @param item - the item sought in this set
+	 * @return true if there is an item in this set that is equal to the input item;
+	 *         otherwise, returns false
+	 */
+	@Override
+	public boolean contains(Type item) {
+		if (isEmpty())
+			return false;
+
+		return contains(item, rootNode);
+	}
+
+	/**
+	 * Recursive helper method for our contains() class.
+	 */
+	private boolean contains(Type item, Node<Type> node) {
+		int comparison = item.compareTo(node.element);
+
+		if (comparison == 0) {
+			return true;
+		} else if (comparison < 0 && node.left != null) {
+			return contains(item, node.left);
+		} else if (comparison > 0 && node.right != null) {
+			return contains(item, node.right);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determines if for each item in the specified collection, there is an item in
+	 * this set that is equal to it.
+	 * 
+	 * @param items - the collection of items sought in this set
+	 * @return true if for each item in the specified collection, there is an item
+	 *         in this set that is equal to it; otherwise, returns false
+	 */
+	@Override
+	public boolean containsAll(Collection<? extends Type> items) {
+		for (Type item : items)
+			if (!contains(item))
+				return false;
+
+		return true;
+	}
+
+	/**
+	 * Returns the first (i.e., smallest) item in this set.
+	 * 
+	 * @throws NoSuchElementException if the set is empty
+	 */
+	@Override
+	public Type first() throws NoSuchElementException {
+		if (isEmpty())
+			throw new NoSuchElementException();
+
+		Node<Type> node = first(rootNode);
+
+		return node.element;
+	}
+
+	/**
+	 * Recursive helper method for our first() method
+	 * 
+	 */
+	private Node<Type> first(Node<Type> node) {
+		if (node.left != null)
+			return first(node.left);
+
+		return node;
+	}
+
+	/**
+	 * Returns true if this set contains no items.
+	 */
+	@Override
+	public boolean isEmpty() {
+		return size() == 0;
+	}
+
+	/**
+	 * Returns the last (i.e., largest) item in this set.
+	 * 
+	 * @throws NoSuchElementException if the set is empty
+	 */
+	@Override
+	public Type last() throws NoSuchElementException {
+		if (isEmpty())
+			throw new NoSuchElementException();
+
+		Node<Type> node = last(rootNode);
+
+		return node.element;
+	}
+
+	/**
+	 * Recursive helper method for our last() method.
+	 * 
+	 */
+	private Node<Type> last(Node<Type> node) {
+		if (node.right != null)
+			return last(node.right);
+
+		return node;
+	}
+
+	/**
+	 * Ensures that this set does not contain the specified item.
+	 * 
+	 * @param item - the item whose absence is ensured in this set
+	 * @return true if this set changed as a result of this method call (that is, if
+	 *         the input item was actually removed); otherwise, returns false
+	 */
+	@Override
+	public boolean remove(Type item) {
+		// TODO: test for null rootNode
+		if (rootNode == null)
+			return false;
+
+		int comparison = item.compareTo(rootNode.element);
+
+		if (comparison < 0)
+			return remove(item, rootNode.left);
+		else if (comparison > 0)
+			return remove(item, rootNode.right);
+
+		// if reached -> rootNode is node to be removed
+
+		// TODO: Ask if root only has left/right subtree to set to that as new root...
+
+		// if no left or right child, set root to null
+		if (rootNode.left == null && rootNode.right == null) {
+			rootNode = null;
+			size--;
+			return true;
+		}
+		// root has left subtree only -> set root to be left subtree
+		else if (rootNode.left != null && rootNode.right == null) {
+			rootNode = rootNode.left;
+			rootNode.parent = null;
+			size--;
+			return true;
+		}
+		// root has right subtree only -> set root to be right subtree
+		else if (rootNode.right != null && rootNode.left == null) {
+			rootNode = rootNode.right;
+			rootNode.parent = null;
+			size--;
+			return true;
+		}
+
+		// root has both left and right subtree
+		return setSuccessor(rootNode);
+	}
+
+	/**
+	 * Private helper method for our remove() method. Sets a successor node.
+	 * 
+	 */
+	private boolean setSuccessor(Node<Type> node) {
+		Node<Type> successor = first(node.right);
+		node.element = successor.element;
+
+//		if (node.element.compareTo(node.right.element) == 0) {						
+//			node.right = node.right.right;
+//			node.right.parent = node; // ?
+//			size--;
+//			return true;
+//		}
+
+		return remove(node.element, node.right);
+	}
+
+	/**
+	 * Recursive helper method for our remove() method
+	 * 
+	 */
+	private boolean remove(Type item, Node<Type> node) {
+		int comparison = item.compareTo(node.element);
+
+		// item is less than current node, traverse left if node exists
+		if (comparison < 0 && node.left != null)
+			return remove(item, node.left);
+		// item is greater than current node, traverse right if node exists
+		else if (comparison > 0 && node.right != null)
+			return remove(item, node.right);
+
+		// item is equal to current node, handle removal
+		if (comparison == 0) {
+			// node found
+			if (node.element.compareTo(node.parent.element) < 0) {
+				System.out.println("HIT FIRST");
+
+				// handle left element reassignment
+				if (node.left == null && node.right == null) {
+					// is leaf - simple delete
+					node.parent.left = null;
+				} else if (node.left != null && node.right != null) {
+					// has two children - find successor
+					return setSuccessor(node);
+				} else if (node.left != null) {
+					// left child only
+					node.parent.left = node.left;
+					node.parent.left.parent = node.parent;
+				} else {
+					// right child only
+					node.parent.left = node.right;
+					node.parent.left.parent = node.parent;
+				}
+			} else {
+				System.out.println("HIT SECOND");
+				// handle right element reassignment
+				if (node.left == null && node.right == null) {
+					// is leaf - simple delete
+					node.parent.right = null;
+				} else if (node.left != null && node.right != null) {
+					// has two children - find successor
+					return setSuccessor(node);
+				} else if (node.left != null) {
+					// left child only
+					node.parent.right = node.left;
+					node.parent.right.parent = node.parent;
+				} else {
+					// right child only
+					node.parent.right = node.right;
+					node.parent.right.parent = node.parent;
+				}
+			}
+
+			size--;
+			return true;
+		}
+
+		// item hasn't been found if there is no remaining left or right nodes to
+		// traverse
+		// and comparison is not equal to 0
+		return false;
+	}
+
+//	private boolean remove(Type item, Node<Type> node, int i) {
+//		int comparison = item.compareTo(node.element);
+//
+//		if (comparison == 0) {
+//			// node found
+//			if (node.element.compareTo(node.parent.element) < 0) {
+//				System.out.println("HIT FIRST");
+//
+//				// handle left element reassignment
+//				if (node.left == null && node.right == null) {
+//					// is leaf - simple delete
+//					node.parent.left = null;
+//				} else if (node.left != null && node.right != null) {
+//					// has two children - find successor
+//					return setSuccessor(node);
+//				} else if (node.left != null) {
+//					// left child only
+//					node.parent.left = node.left;
+//					node.parent.left.parent = node.parent;
+//				} else {
+//					// right child only
+//					node.parent.left = node.right;
+//					node.parent.left.parent = node.parent;
+//				}
+//			} else {
+//				System.out.println("HIT SECOND");
+//				// handle right element reassignment
+//				if (node.left == null && node.right == null) {
+//					// is leaf - simple delete
+//					node.parent.right = null;
+//				} else if (node.left != null && node.right != null) {
+//					// has two children - find successor
+//					return setSuccessor(node);
+//				} else if (node.left != null) {
+//					// left child only
+//					node.parent.right = node.left;
+//					node.parent.right.parent = node.parent;
+//				} else {
+//					// right child only
+//					node.parent.right = node.right;
+//					node.parent.right.parent = node.parent;
+//				}
+//			}
+//			
+//			size--;
+//			return true;
+//		} else if (comparison < 0 && node.left != null) {
+//			return remove(item, node.left);
+//		} else if (comparison > 0 && node.right != null){
+//			return remove(item, node.right);
+//		}
+//		
+//		return false;
+//	}
+
+	/**
+	 * Ensures that this set does not contain any of the items in the specified
+	 * collection.
+	 * 
+	 * @param items - the collection of items whose absence is ensured in this set
+	 * @return true if this set changed as a result of this method call (that is, if
+	 *         any item in the input collection was actually removed); otherwise,
+	 *         returns false
+	 */
+	@Override
+	public boolean removeAll(Collection<? extends Type> items) {
+
+		for (Type item : items)
+			remove(item);
+
+		return size() == 0;
+	}
+
+	/**
+	 * Returns the number of items in this set.
+	 */
+	@Override
+	public int size() {
+		return size;
+	}
+
+	/**
+	 * Returns an ArrayList containing all of the items in this set, in sorted
+	 * order.
+	 */
+	@Override
+	public ArrayList<Type> toArrayList() {
+		ArrayList<Type> list = new ArrayList<Type>();
+
+		if (rootNode == null) {
+			return list;
+		}
+
+		traverse(rootNode, list);
+
+		return list;
+	}
+
+	/**
+	 * Recursive helper method for our toArrayList() method.
+	 * 
+	 */
+	private void traverse(Node<Type> node, ArrayList<Type> list) {
+		// in order traversal?
+		if (node.left != null) {
+			traverse(node.left, list);
+		}
+
+		list.add(node.element);
+
+		if (node.right != null) {
+			traverse(node.right, list);
+		}
+	}
+
+	/**
+	 * Generates a Binary Search Tree in DOT format for easy visualization.
+	 */
+	public void generateDotFile(String filename) {
+		PrintWriter out = null;
+		try {
+			out = new PrintWriter(filename);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+
+		// randomly construct either a graph or a digraph
+		String edgeOp = "->";
+		out.println("digraph G {");
+
+		if (rootNode != null) {
+			Queue<Node<Type>> queue = new LinkedList<>();
+
+			queue.offer(rootNode);
+
+			while (!queue.isEmpty()) {
+				Node<Type> node = queue.poll();
+
+//				if (node.left == null && node.right == null) {
+//					out.println("\t" + node.element);
+//				}
+
+				if (node.left != null) {
+					out.println("\t" + node.element + edgeOp + node.left.element);
+					queue.offer(node.left);
+				}
+
+				if (node.right != null) {
+					out.println("\t" + node.element + edgeOp + node.right.element);
+					queue.offer(node.right);
+				}
+			}
+		}
+
+		out.println("}");
+		out.close();
+	}
+
+}

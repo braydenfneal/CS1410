@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 7 elements from project &apos;CS2420-Assignments&apos;&#x0A;- Original project: &apos;CS2420-Assignments&apos;&#x0A;- Original elements:&#x0A;     assign03.zip&#x0A;     assign03 2.zip&#x0A;     assign03 3.zip&#x0A;     assign04.zip&#x0A;     assign04 2.zip&#x0A;     assign04 3.zip&#x0A;     assign04 4.zip" description="Delete elements" element1="src/assign03 2.zip" element2="src/assign03.zip" element3="src/assign03 3.zip" element4="src/assign04.zip" element5="src/assign04 2.zip" element6="src/assign04 4.zip" element7="src/assign04 3.zip" elements="0" flags="589830" id="org.eclipse.jdt.ui.delete" resources="7" stamp="1645233285000" subPackages="false" version="1.0"/>
+</session>

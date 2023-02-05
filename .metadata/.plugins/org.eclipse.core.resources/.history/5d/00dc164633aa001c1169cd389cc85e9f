@@ -1,0 +1,408 @@
+package assign08;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+public class BinarySearchTreeTester {
+	BinarySearchTree<Integer> emptyTree, smallTree, largeTree;
+
+	@BeforeEach
+	void setUp() throws Exception {
+		emptyTree = new BinarySearchTree<>();
+		smallTree = new BinarySearchTree<>();
+		largeTree = new BinarySearchTree<>();
+
+		smallTree.add(4);
+		smallTree.add(3);
+		smallTree.add(5);
+		
+		largeTree.add(200);
+		largeTree.add(100);
+		largeTree.add(300);
+		largeTree.add(50);
+		largeTree.add(170);
+		largeTree.add(250);
+		largeTree.add(360);
+		largeTree.add(30);
+		largeTree.add(70);
+		largeTree.add(130);
+		largeTree.add(190);
+		largeTree.add(220);
+		largeTree.add(280);
+		largeTree.add(330);
+		largeTree.add(380);
+		largeTree.add(60);
+		largeTree.add(340);
+		largeTree.add(320);
+	}
+
+	@Nested
+	@DisplayName("BinarySearchTree.add")
+	class addTests {
+		@Test
+		void itAddsOnEmptyTree() {
+			assertEquals(0, emptyTree.size());
+			assertTrue(emptyTree.add(1));
+			assertEquals(1, emptyTree.size());
+		}
+
+		@Test
+		void itAddsOnSmallTreeLeft() {
+			assertEquals(3, smallTree.size());
+			
+			assertTrue(smallTree.add(1));
+			assertEquals(4, smallTree.size());
+			assertEquals(1, smallTree.first());
+			
+			assertTrue(smallTree.add(0));
+			assertEquals(5, smallTree.size());
+			assertEquals(0, smallTree.first());
+		}
+
+		@Test
+		void itAddsOnSmallTreeRight() {
+			assertEquals(3, smallTree.size());
+			
+			assertTrue(smallTree.add(7));
+			assertEquals(4, smallTree.size());
+			assertEquals(7, smallTree.last());
+			
+			assertTrue(smallTree.add(9));
+			assertEquals(5, smallTree.size());
+			assertEquals(9, smallTree.last());
+		}
+		
+//		@Test
+//		void itAddsOnSmallTreeMiddleLeft() {
+//			assertEquals(3, smallTree.size());
+//			smallTree.add(1);
+//			smallTree.add(2);
+//			assertEquals(5, smallTree.size());
+//			smallTree.remove(1);
+//			
+//			assertEquals(4, smallTree.size());
+//			assertEquals(2, smallTree.first());
+//		}
+//		
+//		@Test
+//		void itAddsOnSmallTreeMiddleLeft() {
+//			assertEquals(3, smallTree.size());
+//			smallTree.add(7);
+//			smallTree.add(6);
+//			assertEquals(5, smallTree.size());
+//			smallTree.remove(7);
+//			
+//			assertEquals(4, smallTree.size());
+//			assertEquals(6, smallTree.last());
+//		}
+	}
+
+	@Nested
+	@DisplayName("BinarySearchTree.addAll")
+	class addAllTests {
+		@Test
+		void itAddsAllOnEmptyTree() {
+
+		}
+	}
+	
+	@Nested
+	@DisplayName("BinarySearchTree.contains")
+	class containsTests {
+		@Test
+		void itReturnsTrueIfTheNodeIsInTheLeftSubTree() {
+			assertTrue(smallTree.contains(3));
+		}
+		
+		@Test
+		void itReturnsTrueIfTheNodeIsInTheRightSubTree() {
+			assertTrue(smallTree.contains(5));
+		}
+		
+		@Test
+		void itReturnsTrueIfItIsTheRootNode() {
+			assertTrue(smallTree.contains(4));
+		}
+		
+		@Test
+		void itReturnsTrueIfItIsTheRootNodeAndASingleNodeTree() {
+			emptyTree.add(1);
+			assertTrue(emptyTree.contains(1));
+			assertEquals(1, emptyTree.size());
+		}
+		
+		@Test
+		void itReturnsFalseIfTheTreeIsEmpty() {
+			assertFalse(emptyTree.contains(1));
+			assertEquals(0, emptyTree.size());
+		}
+		
+		@Test
+		void itReturnsFalseIfTheNodeIsNotInTheLeftSubTree() {
+			assertFalse(smallTree.contains(1));
+		}
+		
+		@Test
+		void itReturnsFalseIfTheNodeIsNotInTheRightSubTree() {
+			assertFalse(smallTree.contains(8));
+		}
+	}
+	
+	@Nested
+	@DisplayName("BinarySearchTree.containsAll")
+	class containsAllTests {
+		@Test
+		void itReturnsTrueIfAllNodesAreFound() {
+			ArrayList<Integer> items = new ArrayList<>();
+			items.add(3);
+			items.add(5);
+			items.add(4);
+
+			assertTrue(smallTree.containsAll(items));
+		}
+		
+		@Test
+		void itReturnsFalseIfAllNodesAreNotFound() {
+			ArrayList<Integer> items = new ArrayList<>();
+			items.add(3);
+			items.add(5);
+			items.add(4);
+			items.add(1);
+			
+
+			assertFalse(smallTree.containsAll(items));
+		}
+		
+		@Test
+		void itReturnsFalseOnAnEmptyList() {
+			ArrayList<Integer> items = new ArrayList<>();
+
+			assertFalse(smallTree.containsAll(items));
+		}
+	}
+	
+	@Nested
+	@DisplayName("BinarySearchTree.remove")
+	class removeTests {
+		@Test
+		void itRemovesALeftLeafNode() {
+//			largeTree.remove(11);
+//			
+//			assertFalse(largeTree.contains(11));
+//			assertEquals(8, largeTree.size());
+			
+//			largeTree.remove(17);
+//			
+//			assertFalse(largeTree.contains(17));
+//			assertEquals(7, largeTree.size());
+			
+			emptyTree.add(10);
+			emptyTree.add(5);
+			emptyTree.add(3);
+			emptyTree.add(4);
+			emptyTree.add(11);
+			
+			emptyTree.generateDotFile("before");
+			
+			emptyTree.remove(3);
+			
+			emptyTree.generateDotFile("after");
+		}
+		
+		@Test
+		void itRemovesARightLeafNode() {
+//			largeTree.remove(32);
+//			
+//			assertFalse(largeTree.contains(32));
+//			assertEquals(8, largeTree.size());
+//			
+//			largeTree.remove(29);
+//			
+//			assertFalse(largeTree.contains(29));
+//			assertEquals(7, largeTree.size());
+			
+			emptyTree.add(10);
+			emptyTree.add(5);
+			emptyTree.add(3);
+			emptyTree.add(4);
+			emptyTree.add(20);
+			emptyTree.add(16);
+			emptyTree.add(12);
+			emptyTree.add(13);
+			emptyTree.add(18);
+			emptyTree.add(19);
+			emptyTree.add(17);
+			
+			emptyTree.generateDotFile("before");
+			
+			emptyTree.remove(13);
+			
+			emptyTree.generateDotFile("after");
+		}
+		
+		@Test
+		void itRemovesALeftTreeNodeWithOneChild() {
+//			largeTree.remove(13);
+//			
+//			assertEquals(8, largeTree.size());
+//			assertFalse(largeTree.contains(13));
+			
+			emptyTree.add(10);
+			emptyTree.add(5);
+			emptyTree.add(3);
+			emptyTree.add(4);
+			emptyTree.add(20);
+			emptyTree.add(16);
+			emptyTree.add(12);
+			emptyTree.add(13);
+			emptyTree.add(18);
+			emptyTree.add(19);
+			emptyTree.add(17);
+			
+			emptyTree.generateDotFile("before");
+			
+			emptyTree.remove(3);
+			
+			emptyTree.generateDotFile("after");
+		}
+		
+		@Test
+		void itRemovesARightTreeNodeWithOneChild() {
+			assertEquals(18, largeTree.size());
+			
+			largeTree.remove(70);
+			
+			assertEquals(17, largeTree.size());
+			assertFalse(largeTree.contains(70));
+		}
+		
+		@Test
+		void itRemoves() {
+			emptyTree.add(200);
+			emptyTree.add(100);
+			emptyTree.add(300);
+			emptyTree.add(50);
+			emptyTree.add(170);
+			emptyTree.add(250);
+			emptyTree.add(360);
+			emptyTree.add(30);
+			emptyTree.add(70);
+			emptyTree.add(130);
+			emptyTree.add(190);
+			emptyTree.add(220);
+			emptyTree.add(280);
+			emptyTree.add(330);
+			emptyTree.add(380);
+			emptyTree.add(60);
+			emptyTree.add(340);
+			emptyTree.add(320);
+
+			emptyTree.remove(300);
+			emptyTree.remove(100);
+			emptyTree.remove(200);
+			emptyTree.remove(50);
+			emptyTree.remove(170);
+			emptyTree.remove(250);
+			emptyTree.remove(360);
+			emptyTree.remove(30);
+			emptyTree.remove(70);
+			emptyTree.remove(130);
+			emptyTree.remove(190);
+			emptyTree.remove(220);
+			emptyTree.remove(280);
+			emptyTree.remove(330);
+			emptyTree.generateDotFile("before");
+			System.out.println("HIT");
+			emptyTree.remove(380);
+			emptyTree.remove(60);
+			emptyTree.remove(340);
+			emptyTree.remove(320);
+			emptyTree.generateDotFile("after");
+			
+//			emptyTree.add(100);
+//			emptyTree.add(90);
+//			emptyTree.add(80);
+//			emptyTree.add(150);
+//			emptyTree.add(130);
+//			emptyTree.add(200);
+//			
+//			emptyTree.generateDotFile("before");
+//			emptyTree.remove(130);
+//			emptyTree.generateDotFile("after");
+			
+		}
+		
+		@Test
+		void itRemovesANodeWithTwoChildren() {
+			largeTree.generateDotFile("before");
+			assertEquals(18, largeTree.size());
+			
+			largeTree.remove(300);
+			
+			assertEquals(17, largeTree.size());
+			assertFalse(largeTree.contains(300));
+			
+			largeTree.remove(100);
+			
+			assertEquals(16, largeTree.size());
+			assertFalse(largeTree.contains(100));
+			
+			largeTree.remove(170);
+			largeTree.remove(250);
+			largeTree.remove(200);
+			largeTree.remove(340);
+			largeTree.remove(380);
+			largeTree.remove(190);
+			largeTree.remove(50);
+			largeTree.remove(220);
+			largeTree.remove(70);
+			largeTree.remove(60);
+			largeTree.remove(360);
+			largeTree.remove(30);
+			largeTree.remove(280);
+			largeTree.remove(330);
+			largeTree.remove(130);
+			largeTree.remove(320);
+			largeTree.generateDotFile("after");
+
+			assertEquals(0, largeTree.size());
+		}
+		
+		@Test
+		void itRemovesTheRootNode() {
+			emptyTree.add(100);
+			assertTrue(emptyTree.contains(100));
+			emptyTree.remove(100);
+			assertFalse(emptyTree.contains(100));
+//			largeTree.generateDotFile("before");
+//			largeTree.remove(200);
+//			largeTree.generateDotFile("after");
+//			assertFalse(largeTree.contains(200));
+		}
+	}
+
+
+	
+	@Nested
+	@DisplayName("BinarySearchTree.generateDotFile")
+	class generateDotFileTests {
+		@Test
+		void itGeneratesFile() {
+//			emptyTree.add(10);
+//			emptyTree.add(9);
+//			emptyTree.add(11);
+//			emptyTree.generateDotFile("sample");
+			
+//			largeTree.generateDotFile("sample");
+		}
+	}
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;assignment2&apos; to &apos;assign02&apos;&#x0A;- Original project: &apos;CS2420-Assignments&apos;&#x0A;- Original element: &apos;CS2420-Assignments/src/assignment2&apos;&#x0A;- Renamed element: &apos;CS2420-Assignments/src/assign02&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;assignment2&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;assignment2" name="assign02" qualified="false" references="true" stamp="1630708763800" textual="false" version="1.0"/>
+</session>

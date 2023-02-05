@@ -1,0 +1,21 @@
+package weekTwo;
+
+import java.util.Comparator;
+
+/**
+ * Comparator class for ordering strings by their last letter
+ * (i.e., character).
+ * 
+ * @author Erin Parker
+ * @version January 20, 2022
+ */
+public class OrderByLastLetter implements Comparator<String> {
+
+	public int compare(String s1, String s2) {
+		if(s1.charAt(s1.length() - 1) > s2.charAt(s2.length() - 1))
+			return 1;
+		if(s1.charAt(s1.length() - 1) < s2.charAt(s2.length() - 1))
+			return -1; 
+		return 0;
+	}
+}

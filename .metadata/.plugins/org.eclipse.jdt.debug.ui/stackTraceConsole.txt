@@ -1,0 +1,7 @@
+In my toString method, I was originally converting it to a string the same way as a Column Vector. I was supposed to include spaces in between the numbers as opposed to separating them by a new line.
+
+I changed the line 
+
+s += data[0][i] + "\n";
+to
+s += data[0][i] + " ";

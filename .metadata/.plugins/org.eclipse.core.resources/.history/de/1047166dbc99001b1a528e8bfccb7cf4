@@ -1,0 +1,67 @@
+package a9;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+/**
+ * A subclass of Chatter that finds the last word of an inputed 
+ * phrase, makes a list of phrases with a similar word and then 
+ * returns a random phrase from that list. 
+ * 
+ * @author braydenneal
+ *
+ */
+public class ChatterFullMatch extends Chatter{
+	/**
+	 * Constructor builds a Chatter object from the super class, with 
+     * set greeting, goodbye, and potential response phrases.
+	 * 
+	 * @param greeting
+	 * @param goodbye
+	 * @param phrasesPath
+	 */
+	public ChatterFullMatch(String greeting, String goodbye, String phrasesPath) {
+		super(greeting, goodbye, phrasesPath);
+	}
+	
+	/**
+	 * This stores all the phrases that matches with the user input and 
+	 * sets in an array
+	 * 
+	 * @param phrase
+	 * @return the list of possible phrases
+	 */
+	private static String lastWord(String phrase) {
+		String[] words = phrase.split(" ");
+		String[] arr = {word};
+		for (String word : words) {
+			if(phrase.contains(word)) {
+				add phrase to new list of strins
+			}
+		} 
+		return arr;   
+	    }
+	
+	/**
+	 * This takes the list of phrases and chooses a random phrase
+	 * to respond
+	 * 
+	 * @param userPhrase a String
+	 * @return the random phrase that matched with a word from user input
+	 */
+	public String respondToPhrase(String userPhrase) {
+        String lastWord = lastWord(userPhrase);
+        for (String phrase : phrases) {
+            if (phrase.contains(lastWord)) {
+                return phrase;
+            }
+        }
+        return "Please tell me more about " + userPhrase;
+    }
+	
+	public static void main(String[] args) {
+
+	}
+
+}

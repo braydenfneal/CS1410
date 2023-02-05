@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;CS2420F-Assignments/src/comprehensive/RandomPhraseGenerator (1).java&apos; to &apos;RandomPhraseGenerator.java&apos;" description="Rename resource &apos;RandomPhraseGenerator (1).java&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/comprehensive/RandomPhraseGenerator (1).java" name="RandomPhraseGenerator.java" stamp="1650399102770" updateReferences="true"/>
+</session>
